@@ -6,10 +6,11 @@ Raonjena Reading Bank is a modern, digital reading log application designed to b
 ## Project Outline & Features
 ### Core Technologies
 - **HTML5**: Semantic structure.
-- **Tailwind CSS (CDN)**: Utility-first styling with custom configurations.
+- **Tailwind CSS (CDN)**: Utility-first styling.
 - **JavaScript (ES Modules)**: State management and view orchestration.
-- **Web Components**: Encapsulated UI elements (Student Cards, Radar Charts, Modals).
-- **Google Fonts**: Noto Sans KR for high-quality Korean typography.
+- **Web Components**: Encapsulated UI elements.
+- **Gemini API**: AI-powered chatbot (via Vercel Serverless Functions).
+- **Vercel**: Deployment platform for frontend and backend assets.
 
 ### Pages & Views
 1. **Login Screen**: Minimalist entry point for Teachers and Students.
@@ -20,7 +21,8 @@ Raonjena Reading Bank is a modern, digital reading log application designed to b
    - Reading Statistics: Visualized via a Hexagonal Radar Chart.
    - AI Recommendations: Personalized book suggestions.
    - Reading Log: History of registered books.
-4. **Book Registration**: Modal-based form with search simulation and detailed input.
+4. **Book Registration**: Modal-based form with search and star ratings.
+5. **AI Chatbot**: Floating helper widget for reading guidance.
 
 ### Design Principles
 - **Aesthetics**: Vibrant colors, deep shadows (lifted cards), and subtle noise textures.
@@ -29,14 +31,12 @@ Raonjena Reading Bank is a modern, digital reading log application designed to b
 
 ## Current Implementation Plan
 1. **Step 1: HTML Scaffolding** (Completed)
-   - Setup `index.html` with necessary CDN links (Tailwind, Google Fonts).
-   - Define a main `<app-root>` container.
 2. **Step 2: Component Architecture** (Completed)
-   - Created Web Components in `main.js` for `AppRoot`, `LoginView`, `TeacherDashboard`, `StudentDashboard`, `StudentDetailView`, `ReadingRadarChart`, and `BookModal`.
 3. **Step 3: State & Navigation Logic** (Completed)
-   - Implemented `setView` in `AppRoot` for SPA-style navigation.
 4. **Step 4: Styling & Polish** (Completed)
-   - Added custom animations, noise texture, and "lifted" card effects in `style.css`.
-   - Implemented a custom SVG radar chart for data visualization.
-5. **Step 5: Verification** (Completed)
-   - Verified smooth transitions and modal functionality.
+5. **Step 5: AI Integration** (Completed)
+   - Created `api/chat.js` for secure Gemini API calls.
+   - Implemented `chatbot-widget` in the frontend.
+6. **Step 6: Vercel Restructuring** (Completed)
+   - Moved static files to `public/`.
+   - Setup `package.json` and serverless API.

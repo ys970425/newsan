@@ -1,0 +1,15 @@
+{
+  "name": "raonjena-reading-bank",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Raonjena Reading Bank with Gemini Chatbot",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.11.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

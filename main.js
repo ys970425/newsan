@@ -336,3 +336,74 @@ class StudentModal extends HTMLElement {
   }
 }
 customElements.define('student-modal', StudentModal);
+
+// --- Chatbot Logic ---
+function initChatbot() {
+  const toggle = document.getElementById('chatbot-toggle');
+  const window = document.getElementById('chatbot-window');
+  const close = document.getElementById('chatbot-close');
+  const send = document.getElementById('chat-send');
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+
+  toggle.addEventListener('click', () => window.classList.toggle('hidden'));
+  close.addEventListener('click', () => window.classList.add('hidden'));
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Append user message
+    appendMessage('user', text);
+    input.value = '';
+
+    // Append loading state
+    const loadingId = 'loading-' + Date.now();
+    appendMessage('ai', '답변을 작성하는 중입니다...', loadingId);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await response.json();
+      const loadingEl = document.getElementById(loadingId);
+      
+      if (data.reply) {
+        loadingEl.textContent = data.reply;
+      } else {
+        loadingEl.textContent = '오류: ' + (data.error || '응답을 가져올 수 없습니다.');
+        loadingEl.classList.add('text-red-500');
+      }
+    } catch (error) {
+      const loadingEl = document.getElementById(loadingId);
+      loadingEl.textContent = '오류: 서버와 통신 중 문제가 발생했습니다.';
+      loadingEl.classList.add('text-red-500');
+    }
+
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function appendMessage(role, text, id = null) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = role === 'user' 
+      ? 'bg-brand-100 p-3 rounded-2xl rounded-tr-none shadow-sm ml-auto max-w-[80%] text-right'
+      : 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 max-w-[80%]';
+    if (id) msgDiv.id = id;
+    msgDiv.textContent = text;
+    messages.appendChild(msgDiv);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  send.addEventListener('click', sendMessage);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+}
+
+// Start chatbot
+document.addEventListener('DOMContentLoaded', initChatbot);
+// For safety in SPA-like rendering, call it once
+initChatbot();
